@@ -69,5 +69,54 @@ namespace ThinkingLINQ
             List<int> skipWhileDivisibleBy7 =
             nums.SkipWhile(n => n % 7 == 0).ToList();
         }
+
+        //The Of Type Operator
+        //The OfType operator finds elements of only the given type from a collection that has elements of several types.
+        public void OfType()
+        {
+            object[] things = {"Sam", 1, DateTime.Today, "Eric" };
+            var stringOnlyValues = things.OfType<string>();
+        }
+
+        //4-18. The Cast Operator
+       //Safe casting isn’t hard and shouldn’t hurt.The Cast<T>() operator can cast any loosely typed collection to a strongly
+       //typed collection of the given type T.
+
+        public void Cast()
+        {
+            object[] things = {"Sam","Dave","Greg","Travis", "Dan",2};
+            var strThings = things.Select(t => t as string)
+            .Where(t => t != null)
+            .Cast<string>();
+        }
+
+        //4-19. The Aggregate Operator
+        //The Aggregate operator joins the elements of a given collection by using a provided lambda function.
+
+        public void Aggregate()
+        {
+            string[] names = { "Greg", "Travis", "Dan" };
+            names.Aggregate((f, s) => f + "," + s);
+        }
+
+        //4-20. Replacing Nested Loops
+
+/*      The SelectMany Operator
+        If we want to print all the characters of all the words for each word in a given array, we can use nested loops or we can
+        replace nested loops with SelectMany(), as shown next.Although this example is trivial, it is deliberately chosen so
+        that you can relate it to one of your own one - to - many situations.You can use this operator to flatten your dictionarylike
+        collections.
+*/
+        public void SelectMany()
+        {
+            string[] words = { "dog", "elephant", "fox", "bear"};
+            List<char> allChars = new List<char>();
+            foreach (string word in words)
+            {
+                allChars.AddRange(word.ToCharArray());
+            }
+
+            words.SelectMany(w => w.ToCharArray());
+        }
     }
 }
