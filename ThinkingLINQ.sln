@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleProject", "src\ConsoleProject\ConsoleProject.kproj", "{3E75400A-B262-4916-B16E-2BC9774BA977}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,11 +24,16 @@ Global
 		{6DB8E531-58A6-4F01-9BF3-82018D6E8357}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DB8E531-58A6-4F01-9BF3-82018D6E8357}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DB8E531-58A6-4F01-9BF3-82018D6E8357}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E75400A-B262-4916-B16E-2BC9774BA977}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E75400A-B262-4916-B16E-2BC9774BA977}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E75400A-B262-4916-B16E-2BC9774BA977}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E75400A-B262-4916-B16E-2BC9774BA977}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6DB8E531-58A6-4F01-9BF3-82018D6E8357} = {AFD7A6B9-3833-4E83-8D3D-233BD5DADEA8}
+		{3E75400A-B262-4916-B16E-2BC9774BA977} = {AFD7A6B9-3833-4E83-8D3D-233BD5DADEA8}
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ThinkingLINQ
@@ -117,6 +118,99 @@ namespace ThinkingLINQ
             }
 
             words.SelectMany(w => w.ToCharArray());
+        }
+
+        //Removing Nested Loops by Using SelectMany
+
+        public void NestedLoop()
+        {
+            List<int> fromLoop = new List<int>();
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    fromLoop.Add(i + j);
+
+            int[] initialValues = Enumerable.Range(0, 10).ToArray();
+            List<int> fromLINQ = Enumerable.Range(0, 10)
+                                    .SelectMany(e => initialValues.Select(v => v + e)).ToList();
+
+            //Finally check whether you have the same values or not.
+            var flag = fromLoop.SequenceEqual(fromLINQ);
+        }
+
+        //Replacing If-Else Blocks Inside a Loop
+        public void ReplacingIfElseBlocksInsideALoop()
+        {
+            var someThings = new List<int>();
+            for (int i = 0; i < 4; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    someThings.Insert(0, i);
+                }
+                else if ((2 * i + 1) % 2 == 0)
+                {
+                    someThings.Add(i);
+                }
+                else //everything else falls here
+                {
+                    someThings.Add(i);
+                    someThings.Add(i + 1);
+                }
+            }
+
+            someThings = new List<int>();
+            Enumerable.Range(0, 4).Where(i => i % 2 == 0).ToList().ForEach(a => someThings.Insert(0, a));
+            Enumerable.Range(0, 4).Where(i => (2 * i + 1) % 2 == 0).ToList().ForEach(a => someThings.Add(a));
+            Enumerable.Range(0, 4).Where(i => (2 * i + 1) % 2 != 0 && i % 2 != 0).ToList().ForEach(a =>
+                        someThings.AddRange(new int[] { a, a + 1 }));
+        }
+
+        //4-21. Running Code in Parallel Using AsParallel( ) and AsOrdered() Operators
+
+        /*Making use of all your computing power is simple with LINQ. By using the AsParallel() operator, you can
+        “automagically” make sure that your code runs faster. But be warned, plugging in AsParallel() doesn’t always
+        guarantee faster execution time. Sometimes it might take longer to distribute the task to multiple processors, and
+        it can take a longer time running the code in parallel than in sequential mode. AsParallel() splits the input data
+        to multiple groups so the order of the elements in the input doesn’t remain intact. If you care about the order of the
+        elements in the result, plug in AsOrdered() right after the AsParallel() call*/
+
+        //finds all the prime numbers from 1 to 10,000 — fast.
+        public void AsParallel()
+        {
+            Stopwatch w = new Stopwatch();
+            w.Start();
+
+            List<int> Qs = new List<int>();
+            List<int> Qsp = new List<int>();
+            List<int> Qsp1 = new List<int>();
+
+            for (int i = 0; i < 2; i++)
+                Qs = Enumerable.Range(1, 10000)
+                    .Where(d => Enumerable.Range(2, d / 2).All(e => d % e != 0)).ToList();
+
+            w.Stop();
+
+            double timeWithoutParallelization = w.Elapsed.TotalMilliseconds;
+            Stopwatch w2 = new Stopwatch();
+            w2.Start();
+
+            for (int i = 0; i < 2; i++)
+                Qsp = Enumerable.Range(1, 10000).AsParallel().Where(d =>
+                    Enumerable.Range(2, d / 2).All(e => d % e != 0)).ToList();
+
+            w2.Stop();
+
+            double timeWithParallelization = w2.Elapsed.TotalMilliseconds;
+            double percentageGainInPerformance = 
+                (timeWithoutParallelization - timeWithParallelization) / timeWithoutParallelization;
+
+            bool isSame = Qs.SequenceEqual(Qsp); //false cause AsParallel does not save the order of the elements
+
+            for (int i = 0; i < 2; i++)
+                Qsp1 = Enumerable.Range(1, 10000).AsParallel().AsOrdered().Where(d =>
+                    Enumerable.Range(2, d / 2).All(e => d % e != 0)).ToList();
+
+            isSame = Qs.SequenceEqual(Qsp1); //true cause AsOrdered will save the order of the elements
         }
     }
 }
